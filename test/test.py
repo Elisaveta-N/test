@@ -109,6 +109,32 @@ def main(str):
 
 print(main("[[ begin opt q(rexele_541) |>oncera_358 end, begin optq(rianbi)|>tiabe end, ]]"))
 
+import re
+
+
+def func4(str):
+    pat1 = r'q\(\w+\)'
+    res1 = re.findall(pat1, str)
+    i = 0
+    for val in res1:
+        res1[i] = val[2:-1]
+        i+=1
+    pat2 = r'\|.\w+;'
+    res2 = re.findall(pat2, str)
+    i = 0
+    for val in res2:
+        res2[i] = val[1:-1]
+        if res2[i][0] == ' ':
+            res2[i] = res2[i][1:]
+        i+=1
+    res = {}
+    for i in range(0, len(res1)):
+        res[res1[i]] = res2[i]   
+    print(res)
+    
+func4('<block> {let q(arlaso) <|-8318; } {let q(xeon) <|-5427;} { letq(ondi_649) <| 327; } \
+{ let q(cere) <| 6908;}</block>')
+
 
 #Реализовать конечный автомат Мили в виде класса.
 # https://kispython.ru/docs/9/%D0%98%D0%9D%D0%91%D0%9E-07-21.html#%D0%B2%D0%B0%D1%80%D0%B8%D0%B0%D0%BD%D1%82-40
