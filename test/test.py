@@ -14,6 +14,15 @@ def main(y, z):
         sum += 96 * (a + b) ** 2
     return 86 * sum
 
+def main(z, x):
+    f = 0
+    for i in range(1, len(z) + 1):
+        f += pow(math.fabs(90 + 52 * pow(z[(i-1)//2], 2) + x[(i-1)//2]), 7)
+    return 31 * f
+
+print(main([0.36, -0.31, 0.58], [0.74, -0.18, 0.01]))
+
+
 
 #Реализовать функцию для вычисления дерева решений.
 # https://kispython.ru/docs/5/%D0%98%D0%9D%D0%91%D0%9E-11-21.html#%D0%B2%D0%B0%D1%80%D0%B8%D0%B0%D0%BD%D1%82-40
