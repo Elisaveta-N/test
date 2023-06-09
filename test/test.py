@@ -220,3 +220,66 @@ def test():
     raises(lambda: o.stand(), MealyError)
     raises(lambda: o.punch(), MealyError)
     raises(lambda: o.spin(), MealyError)
+
+#Variation 2
+    class MealyError(BaseException):
+    def __init__(self, method_name) -> None:
+        self.method_name = method_name
+        super().__init__(method_name)
+
+
+class MealyAutomata:
+    _state_dict = {
+        'A': {'mix': ('B', 0), 'dash': None},
+        'B': {'mix': None, 'dash': ('C', 1)},
+        'C': {'mix': ('D', 2), 'dash': None},
+        'D': {'mix': ('G', 4), 'dash': ('E', 3)},
+        'E': {'mix': ('F', 5), 'dash': ('G', 6)},
+        'F': {'mix': None, 'dash': ('G', 7)},
+        'G': {'mix': ('A', 9), 'dash': ('G', 8)}
+    }
+
+    def __init__(self):
+        self._state = 'A'
+
+    def _run_method(self, method_name):
+        supposed_state = self._state_dict[self._state][method_name]
+        if supposed_state is not None:
+            self._state = supposed_state[0]
+            return supposed_state[1]
+        else:
+            raise MealyError(method_name)
+
+    def mix(self):
+        return self._run_method('mix')
+
+    def dash(self):
+        return self._run_method('dash')
+
+
+def main():
+    return MealyAutomata()
+
+
+def test():
+    o = main()
+    o.mix()  # 0
+    o.dash()  # 1
+    o.mix()  # 2
+    o.dash()  # 3
+    o.mix()  # 5
+    o.dash()  # 7
+    o.mix()  # 9
+    try:
+        o.dash()  # MealyError
+    except MealyError:
+        pass
+    o.mix()  # 0
+    try:
+        o.mix()  # MealyError
+    except MealyError:
+        pass
+    o.dash()  # 1
+    o.mix()  # 2
+    o.mix()  # 4
+    o.dash()  # 8
